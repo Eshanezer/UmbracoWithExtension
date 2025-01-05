@@ -1,24 +1,18 @@
 {
     "$schema": "../../umbraco-package-schema.json",
-    "name": "My TypeScript Extension",
+    "name": "My Dashboard",
     "version": "0.1.0",
     "extensions": [
         {
             "type": "dashboard",
-            "alias": "My.Dashboard.MyTypeScriptExtension",
-            "name": "My TypeScript Extension",
+            "alias": "My.Dashboard.MyExtension",
+            "name": "My Dashboard",
             "element": "/App_Plugins/Client/client.js",
-            "weight": -1,
+            "elementName": "my-element",
             "meta": {
-                "label": "My TypeScript Extension",
-                "pathname": "my-typescript-extension"
-            },
-            "conditions": [
-                {
-                    "alias": "Umb.Condition.SectionAlias",
-                    "match": "Umb.Section.Content"
-                }
-            ]
+                "label": "My Dashboard",
+                "pathname": "my-dashboard"
+            }
         }
     ]
 }
