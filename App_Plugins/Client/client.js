@@ -1,101 +1,86 @@
-import { UMB_CURRENT_USER_CONTEXT as m } from "@umbraco-cms/backoffice/current-user";
-import { LitElement as b, html as n, repeat as p, css as _, state as h, customElement as v } from "@umbraco-cms/backoffice/external/lit";
-import { UmbUserCollectionRepository as y } from "@umbraco-cms/backoffice/user";
-import { UmbElementMixin as f } from "@umbraco-cms/backoffice/element-api";
-var w = Object.defineProperty, U = Object.getOwnPropertyDescriptor, d = (e) => {
-  throw TypeError(e);
-}, c = (e, t, a, o) => {
-  for (var r = o > 1 ? void 0 : o ? U(t, a) : t, s = e.length - 1, u; s >= 0; s--)
-    (u = e[s]) && (r = (o ? u(t, a, r) : u(r)) || r);
-  return o && r && w(t, a, r), r;
-}, D = (e, t, a) => t.has(e) || d("Cannot " + a), C = (e, t, a) => (D(e, t, "read from private field"), a ? a.call(e) : t.get(e)), E = (e, t, a) => t.has(e) ? d("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, a), i;
-let l = class extends f(b) {
+import { css as d, property as m, state as _, customElement as y, LitElement as f, html as E } from "@umbraco-cms/backoffice/external/lit";
+import { UmbPropertyValueChangeEvent as b } from "@umbraco-cms/backoffice/property-editor";
+var w = Object.defineProperty, x = Object.getOwnPropertyDescriptor, h = (t) => {
+  throw TypeError(t);
+}, p = (t, e, s, r) => {
+  for (var i = r > 1 ? void 0 : r ? x(e, s) : e, u = t.length - 1, l; u >= 0; u--)
+    (l = t[u]) && (i = (r ? l(e, s, i) : l(i)) || i);
+  return r && i && w(e, s, i), i;
+}, P = (t, e, s) => e.has(t) || h("Cannot " + s), C = (t, e, s) => e.has(t) ? h("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, s), a = (t, e, s) => (P(t, e, "access private method"), s), n, v, c, g;
+let o = class extends f {
   constructor() {
-    super(), this._userData = [], E(this, i, new y(this)), this.consumeContext(m, (e) => {
-      this._observeCurrentUser(e);
-    }), this._getPagedUserData();
-  }
-  //Get the current user
-  async _observeCurrentUser(e) {
-    this.observe(e.currentUser, (t) => {
-      this._currentUser = t;
-    });
-  }
-  //Get all users
-  async _getPagedUserData() {
-    const { data: e } = await C(this, i).requestCollection();
-    this._userData = (e == null ? void 0 : e.items) ?? [];
+    super(...arguments), C(this, n), this.value = "", this._suggestions = [
+      "You should take a break",
+      "I suggest that you visit the Eiffel Tower",
+      "How about starting a book club today or this week?",
+      "Are you hungry?"
+    ];
   }
   render() {
-    var e;
-    return n`
-			<uui-box>
-				<h1 slot="headline">
-					<umb-localize key="welcomeDashboard_heading">Welcome</umb-localize>
-					${((e = this._currentUser) == null ? void 0 : e.name) ?? "Unknown"}!
-				</h1>
-				<div>
-					<p>
-						<umb-localize key="welcomeDashboard_bodytext">
-							This is the Backoffice. From here, you can modify the content, media, and settings of your website.
-						</umb-localize>
-					</p>
-					<p>
-						<umb-localize key="welcomeDashboard_copyright"> © Sample Company 20XX </umb-localize>
-					</p>
-				</div>
-
-				<uui-table id="users-wrapper">
-					<uui-table-row>
-						<uui-table-head-cell>Name</uui-table-head-cell>
-						<uui-table-head-cell>Email</uui-table-head-cell>
-						<uui-table-head-cell>Status</uui-table-head-cell>
-					</uui-table-row>
-                    ${p(this._userData, (t) => t.unique, (t) => this._renderUser(t))}
-				</uui-table>
-			</uui-box>
-		`;
-  }
-  _renderUser(e) {
-    if (e)
-      return n`<uui-table-row class="user">
-			<uui-table-cell>${e.name}</uui-table-cell>
-			<uui-table-cell>${e.email}</uui-table-cell>
-			<uui-table-cell>${e.state}</uui-table-cell>
-		</uui-table-row>`;
+    return E`
+            <uui-input
+                id="suggestion-input"
+                class="element"
+                label="text input"
+                .value=${this.value || ""}
+                @input=${a(this, n, v)}
+            >
+            </uui-input>
+            <div id="wrapper">
+                <uui-button
+                    id="suggestion-button"
+                    class="element"
+                    look="primary"
+                    label="give me suggestions"
+                    @click=${a(this, n, c)}
+                >
+                    Give me suggestions!
+                </uui-button>
+                <uui-button
+                    id="suggestion-trimmer"
+                    class="element"
+                    look="outline"
+                    label="Trim text"
+                >
+                    Trim text
+                </uui-button>
+            </div>
+        `;
   }
 };
-i = /* @__PURE__ */ new WeakMap();
-l.styles = [
-  _`
-			:host {
-				display: block;
-				padding: var(--uui-size-layout-1);
-			}
-
-			uui-table-head-cell {
-				font-weight: bold;
-			}
-
-			.user:hover,
-			.user:focus {
-				cursor: pointer;
-				background-color: var(--uui-color-surface-alt);
-			}
-		`
+n = /* @__PURE__ */ new WeakSet();
+v = function(t) {
+  this.value = t.target.value, a(this, n, g).call(this);
+};
+c = function() {
+  const t = this._suggestions.length * Math.random() | 0;
+  this.value = this._suggestions[t], a(this, n, g).call(this);
+};
+g = function() {
+  this.dispatchEvent(new b());
+};
+o.styles = [
+  d`
+            #wrapper {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+            }
+            .element {
+                width: 100%;
+            }
+        `
 ];
-c([
-  h()
-], l.prototype, "_currentUser", 2);
-c([
-  h()
-], l.prototype, "_userData", 2);
-l = c([
-  v("my-welcome-dashboard")
-], l);
-const $ = l;
+p([
+  m({ type: String })
+], o.prototype, "value", 2);
+p([
+  _()
+], o.prototype, "_suggestions", 2);
+o = p([
+  y("my-suggestions-property-editor-ui")
+], o);
 export {
-  l as MyWelcomeDashboardElement,
-  $ as default
+  o as default
 };
 //# sourceMappingURL=client.js.map
